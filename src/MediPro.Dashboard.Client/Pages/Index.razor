@@ -1,0 +1,109 @@
+@page "/"
+@inject HttpClient Http
+
+<PageTitle>Dashboard - VMS MediPro</PageTitle>
+
+<div class="dashboard-header mb-4">
+    <h2 class="section-title">System Status</h2>
+    <p class="text-muted">Real-time overview of the MediPro print routing engine and Firebase quotas.</p>
+</div>
+
+<div class="row">
+    <!-- Quota Card -->
+    <div class="col-md-4 mb-4">
+        <div class="glass-card">
+            <div class="card-body">
+                <h5 class="card-title text-accent">Print Quota</h5>
+                @if (quota == null)
+                {
+                    <p><em>Loading quota...</em></p>
+                }
+                else
+                {
+                    <div class="display-4 @(quota.HasQuota ? "text-success" : "text-danger")">
+                        @quota.RemainingPrints
+                    </div>
+                    <div class="text-muted small mt-2">
+                        License Key: @quota.LicenseKey <br/>
+                        Total Prints: @quota.TotalPrints <br/>
+                        Last Updated: @quota.LastUpdatedUtc.ToLocalTime().ToString("g")
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Printers Card -->
+    <div class="col-md-8 mb-4">
+        <div class="glass-card h-100">
+            <div class="card-body">
+                <h5 class="card-title text-accent">Active Printers</h5>
+                @if (printers == null)
+                {
+                    <p><em>Loading printers...</em></p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-dark table-borderless table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Printer Name</th>
+                                    <th>Status</th>
+                                    <th>Paper</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var p in printers)
+                                {
+                                    <tr>
+                                        <td>@p.Name</td>
+                                        <td>
+                                            @if (p.Status == PrinterStatusCode.Idle)
+                                            {
+                                                <span class="badge bg-success">Ready</span>
+                                            }
+                                            else if (p.Status == PrinterStatusCode.Printing || p.Status == PrinterStatusCode.Processing)
+                                            {
+                                                <span class="badge bg-warning text-dark">Printing</span>
+                                            }
+                                            else if (p.Status == PrinterStatusCode.Offline)
+                                            {
+                                                <span class="badge bg-danger">Offline</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">@p.Status.ToString()</span>
+                                            }
+                                        </td>
+                                        <td>@p.PaperSize</td>
+                                        <td>@(p.IsDryFilmPrinter ? "PET Film" : "Standard")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private QuotaRecord? quota;
+    private PrinterInfo[]? printers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            quota = await Http.GetFromJsonAsync<QuotaRecord>("api/dashboard/quota");
+            printers = await Http.GetFromJsonAsync<PrinterInfo[]>("api/dashboard/printers");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching dashboard data: {ex.Message}");
+        }
+    }
+}

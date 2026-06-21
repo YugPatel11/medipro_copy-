@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>MediPro.Worker</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MediPro.Core\MediPro.Core.csproj" />
+    <ProjectReference Include="..\MediPro.Dicom\MediPro.Dicom.csproj" />
+    <ProjectReference Include="..\MediPro.Print\MediPro.Print.csproj" />
+    <ProjectReference Include="..\MediPro.Quota\MediPro.Quota.csproj" />
+    <ProjectReference Include="..\MediPro.Dashboard\MediPro.Dashboard.csproj" />
+  </ItemGroup>
+
+</Project>

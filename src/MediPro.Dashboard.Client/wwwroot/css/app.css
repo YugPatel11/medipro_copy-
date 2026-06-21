@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg-dark: #0f0f11;
+    --accent: #d44b1e;
+    --text-main: #f0f0f0;
+    --text-muted: #9fa1a6;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', -apple-system, sans-serif;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-right: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.top-row {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(15, 15, 17, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.brand-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(90deg, #fff 0%, #ccc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-title {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.text-accent {
+    color: var(--accent) !important;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.table-dark {
+    background-color: transparent !important;
+    --bs-table-bg: transparent;
+    --bs-table-striped-bg: rgba(255,255,255,0.02);
+}
+
+.table-dark th {
+    border-bottom: 1px solid var(--glass-border) !important;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+.table-dark td {
+    vertical-align: middle;
+}
+
+/* Navigation overrides */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--accent) !important;
+}
+
+.nav-item .nav-link {
+    color: var(--text-muted);
+    border-radius: 8px;
+    margin-bottom: 4px;
+    transition: all 0.2s;
+}
+
+.nav-item .nav-link:hover {
+    background-color: var(--glass-bg);
+    color: white;
+}
+
+.nav-item .nav-link.active {
+    background-color: rgba(212, 75, 30, 0.15);
+    color: var(--accent);
+    border-left: 3px solid var(--accent);
+}
+
+/* Blazor error UI - hidden by default, shown on unhandled errors */
+#blazor-error-ui {
+    background: rgba(50, 0, 0, 0.9);
+    color: #ff6b6b;
+    padding: 0.6rem 1.25rem;
+    display: none;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    text-align: center;
+}
+
+#blazor-error-ui .reload {
+    color: var(--accent);
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    margin-left: 1rem;
+}
